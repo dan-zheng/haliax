@@ -12,6 +12,8 @@ from haliax.axis import Axis, AxisSelection, AxisSpec
 from haliax.core import NamedArray
 from haliax.types import PrecisionLike
 
+import pynsy.type_inference.tensor_shape_inference as shaper
+
 
 # With attention we usually distinguish between the mask and the bias, though the former is just a special case of the
 # latter. In practice, the mask is a boolean array that is applied using `where` to the logits, while the bias is a

@@ -9,6 +9,7 @@ import haliax.debug as debug
 import haliax.nn as nn
 import haliax.random as random
 import haliax.tree_util as tree_util
+import pynsy.type_inference.tensor_shape_inference as shaper
 
 from .axis import Axis, AxisSelection, AxisSelector, AxisSpec, concat_axes, eliminate_axes, selects_axis
 from .core import (
@@ -99,7 +100,9 @@ def arange(axis: Axis, *, start: int = 0, step: int = 1, dtype: Optional[DTypeLi
     # return NamedArray(jnp.arange(start, stop, step, dtype=dtype), (axis,))
 
     arr = jax.lax.iota(dtype=dtype or jnp.result_type(start), size=axis.size) * step + start
-    return NamedArray(arr, (axis,))
+    result = NamedArray(arr, (axis,))
+    # shaper.annotate_shape(result, (axis.size,))
+    return result
 
 
 # TODO: add overrides for arraylike start/stop to linspace, logspace, geomspace
@@ -570,6 +573,7 @@ def argsort(a: NamedArray, axis: Optional[AxisSelector] = None) -> NamedArray:
 
 
 # elemwise binary ops
+
 
 # Note that all the heavy lifting is done by the `wrap_elemwise_binary` decorator
 @wrap_elemwise_binary

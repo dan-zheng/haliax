@@ -78,6 +78,10 @@ class NamedArray:
             if s != tuple(a.size for a in self.axes):
                 raise ValueError(f"Shape of underlying array {s} does not match shape of axes {self.axes}")
 
+    @property
+    def shape(self):
+        return tuple(a.size for a in self.axes)
+
     def item(self):
         """Returns the value of this NamedArray as a python scalar."""
         return self.array.item()
